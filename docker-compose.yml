@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  auth:
+    build: ./services/auth
+    ports:
+      - "4001:4001"
+    environment:
+      - DATABASE_URL=postgresql://narayana:Narayana!23@postgres:5432/auth_db
+      - JWT_SECRET=changeme
+    depends_on:
+      - postgres
+    volumes:
+      - ./services/auth:/app
+    command: npm run dev
+
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: narayana
+      POSTGRES_PASSWORD: Narayana!23
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  user:
+    build: ./services/user
+    ports:
+      - "4002:4002"
+    environment:
+      - DATABASE_URL=postgresql://narayana:Narayana!23@postgres:5432/auth_db
+    depends_on:
+      - postgres
+    volumes:
+      - ./services/user:/app
+    command: npm run dev
+volumes:
+  pgdata:
