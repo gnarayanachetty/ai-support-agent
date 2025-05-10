@@ -1,0 +1,41 @@
+openapi: 3.0.1
+info:
+  title: AI Service API
+  version: '1.0'
+paths:
+  /ai/completions:
+    post:
+      summary: Get AI chat/completion response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                messages:
+                  type: array
+                  items:
+                    type: object
+                model:
+                  type: string
+      responses:
+        '200':
+          description: AI completion result
+  /ai/embeddings:
+    post:
+      summary: Get AI embeddings for input text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: string
+                model:
+                  type: string
+      responses:
+        '200':
+          description: Embedding result

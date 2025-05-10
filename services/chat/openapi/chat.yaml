@@ -1,0 +1,69 @@
+openapi: 3.0.1
+info:
+  title: Chat Service API
+  version: '1.0'
+paths:
+  /chats:
+    post:
+      summary: Create a new chat session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '200':
+          description: Chat session created
+  /chats/{id}:
+    get:
+      summary: Get chat session and messages
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Chat session with messages
+        '404':
+          description: Not found
+  /chats/{id}/messages:
+    post:
+      summary: Add message to chat session
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sender:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Message added
+  /chats/user/{userId}:
+    get:
+      summary: List all chats for a user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of chat sessions

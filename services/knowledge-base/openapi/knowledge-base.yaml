@@ -1,0 +1,103 @@
+openapi: 3.0.1
+info:
+  title: Knowledge Base Service API
+  version: '1.0'
+paths:
+  /articles:
+    post:
+      summary: Create an article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleCreate'
+      responses:
+        '200':
+          description: Article created
+    get:
+      summary: List all articles
+      responses:
+        '200':
+          description: List of articles
+  /articles/{id}:
+    get:
+      summary: Get article by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Article details
+        '404':
+          description: Not found
+    patch:
+      summary: Update article
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleUpdate'
+      responses:
+        '200':
+          description: Updated article
+        '400':
+          description: Update failed
+    delete:
+      summary: Delete article
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted
+        '400':
+          description: Delete failed
+  /articles/search:
+    post:
+      summary: Search articles by embedding (stub)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                embedding:
+                  type: string
+      responses:
+        '200':
+          description: List of matching articles
+components:
+  schemas:
+    ArticleCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        embedding:
+          type: string
+    ArticleUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        embedding:
+          type: string
